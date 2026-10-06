@@ -276,4 +276,26 @@ main {
     .win-message p {
         font-size: 18px;
     }
+/* Кнопка звука */
+.sound-btn {
+    margin-top: 15px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.sound-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.sound-btn.muted {
+    background-color: rgba(255, 0, 0, 0.4);
+}
 }

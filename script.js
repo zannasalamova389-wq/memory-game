@@ -26,7 +26,9 @@ let moves = 0;
 let pairsFound = 0;
 let flippedCards = [];
 let lockBoard = false;
+let soundEnabled = true;
 
+// Элементы
 const gameBoard = document.getElementById('game-board');
 const movesDisplay = document.getElementById('moves');
 const pairsFoundDisplay = document.getElementById('pairs-found');
@@ -35,6 +37,19 @@ const winMessage = document.getElementById('win-message');
 const finalMoves = document.getElementById('final-moves');
 const restartBtn = document.getElementById('restart-btn');
 const levelBtns = document.querySelectorAll('.level-btn');
+const soundToggle = document.getElementById('sound-toggle');
+
+// Звуки
+const bgMusic = document.getElementById('bg-music');
+const clickSound = document.getElementById('click-sound');
+const matchSound = document.getElementById('match-sound');
+const winSound = document.getElementById('win-sound');
+
+// Установка громкости
+bgMusic.volume = 0.2;
+clickSound.volume = 0.5;
+matchSound.volume = 0.6;
+winSound.volume = 0.7;
 
 // Перемешивание массива
 function shuffle(array) {
@@ -44,6 +59,13 @@ function shuffle(array) {
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
+}
+
+// Воспроизведение звука
+function playSound(audio) {
+    if (!soundEnabled) return;
+    audio.currentTime = 0;
+    audio.play().catch(e => console.log('Звук не воспроизведён:', e));
 }
 
 // Запуск игры
@@ -58,6 +80,11 @@ function startGame(level) {
     pairsFoundDisplay.textContent = '0';
     pairsTotalDisplay.textContent = levels[level].pairs;
     winMessage.classList.remove('active');
+
+    // Запускаем фоновую музыку
+    if (soundEnabled && bgMusic.paused) {
+        bgMusic.play().catch(e => console.log('Фон не запущен:', e));
+    }
 
     levelBtns.forEach(btn => {
         btn.classList.toggle('active', parseInt(btn.dataset.level) === level);
@@ -95,6 +122,8 @@ function flipCard(card) {
     if (card.classList.contains('flipped')) return;
     if (card.classList.contains('matched')) return;
 
+    playSound(clickSound); // Звук клика
+
     card.classList.add('flipped');
     flippedCards.push(card);
 
@@ -117,10 +146,13 @@ function checkMatch() {
         pairsFoundDisplay.textContent = pairsFound;
         flippedCards = [];
 
+        playSound(matchSound); // Звук совпадения
+
         if (pairsFound === levels[currentLevel].pairs) {
             setTimeout(() => {
                 finalMoves.textContent = moves;
                 winMessage.classList.add('active');
+                playSound(winSound); // Звук победы
             }, 600);
         }
     } else {
@@ -145,5 +177,30 @@ restartBtn.addEventListener('click', () => {
     startGame(currentLevel);
 });
 
+// Переключение звука
+soundToggle.addEventListener('click', () => {
+    soundEnabled = !soundEnabled;
+
+    if (soundEnabled) {
+        soundToggle.textContent = '🔊 Звук вкл';
+        soundToggle.classList.remove('muted');
+        if (bgMusic.paused) {
+            bgMusic.play().catch(e => console.log(e));
+        }
+    } else {
+        soundToggle.textContent = '🔇 Звук выкл';
+        soundToggle.classList.add('muted');
+        bgMusic.pause();
+    }
+});
+
 // Запуск игры при загрузке
 startGame(1);
+
+// Запуск фоновой музыки после первого клика (браузеры блокируют автозапуск)
+document.addEventListener('click', function startBgMusic() {
+    if (soundEnabled && bgMusic.paused) {
+        bgMusic.play().catch(e => console.log(e));
+    }
+    document.removeEventListener('click', startBgMusic);
+}, { once: true });
