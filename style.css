@@ -28,6 +28,28 @@ body {
 .header p {
     font-size: 18px;
     opacity: 0.9;
+    margin-bottom: 15px;
+}
+
+.sound-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-family: 'Inter', sans-serif;
+}
+
+.sound-btn:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+
+.sound-btn.muted {
+    background-color: rgba(255, 0, 0, 0.4);
 }
 
 main {
@@ -38,7 +60,6 @@ main {
     width: 100%;
 }
 
-/* Кнопки уровней */
 .controls {
     display: flex;
     justify-content: center;
@@ -70,7 +91,6 @@ main {
     color: #764ba2;
 }
 
-/* Статистика */
 .stats {
     display: flex;
     justify-content: center;
@@ -86,7 +106,6 @@ main {
     font-size: 22px;
 }
 
-/* Игровое поле */
 .game-board {
     display: grid;
     gap: 15px;
@@ -107,7 +126,6 @@ main {
     grid-template-columns: repeat(6, 1fr);
 }
 
-/* Карточка */
 .card {
     aspect-ratio: 1;
     perspective: 1000px;
@@ -122,10 +140,7 @@ main {
     transform-style: preserve-3d;
 }
 
-.card.flipped .card-inner {
-    transform: rotateY(180deg);
-}
-
+.card.flipped .card-inner,
 .card.matched .card-inner {
     transform: rotateY(180deg);
 }
@@ -175,7 +190,6 @@ main {
     object-fit: cover;
 }
 
-/* Сообщение о победе */
 .win-message {
     display: none;
     position: fixed;
@@ -225,7 +239,6 @@ main {
     transform: scale(1.05);
 }
 
-/* Подвал */
 .footer {
     text-align: center;
     padding: 20px;
@@ -234,68 +247,21 @@ main {
     opacity: 0.8;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
-    .header h1 {
-        font-size: 28px;
-    }
-
-    .header p {
-        font-size: 14px;
-    }
-
-    .level-btn {
-        padding: 10px 18px;
-        font-size: 14px;
-    }
-
-    .stats {
-        font-size: 14px;
-        gap: 20px;
-    }
-
-    .stats span {
-        font-size: 18px;
-    }
-
+    .header h1 { font-size: 28px; }
+    .header p { font-size: 14px; }
+    .level-btn { padding: 10px 18px; font-size: 14px; }
+    .stats { font-size: 14px; gap: 20px; }
+    .stats span { font-size: 18px; }
     .game-board.level-1,
     .game-board.level-2 {
         grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
-
     .game-board.level-3 {
         grid-template-columns: repeat(4, 1fr);
         gap: 8px;
     }
-
-    .win-message h2 {
-        font-size: 28px;
-    }
-
-    .win-message p {
-        font-size: 18px;
-    }
-/* Кнопка звука */
-.sound-btn {
-    margin-top: 15px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 20px;
-    background-color: rgba(255, 255, 255, 0.3);
-    color: #fff;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    font-family: 'Inter', sans-serif;
-}
-
-.sound-btn:hover {
-    background-color: rgba(255, 255, 255, 0.5);
-}
-
-.sound-btn.muted {
-    background-color: rgba(255, 0, 0, 0.4);
-}
+    .win-message h2 { font-size: 28px; }
+    .win-message p { font-size: 18px; }
 }
